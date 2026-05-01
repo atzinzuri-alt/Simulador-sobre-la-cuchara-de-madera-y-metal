@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Juego Interactivo - Cucharas</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#1e1e2f;
+    color:white;
+    text-align:center;
+}
+
+h1{
+    margin-top:20px;
+}
+
+/* AREA DE JUEGO */
+.game{
+    margin-top:30px;
+}
+
+/* CUCHARAS */
+.cuchara{
+    width:100px;
+    padding:10px;
+    margin:10px;
+    display:inline-block;
+    border-radius:10px;
+    cursor:grab;
+}
+
+.metal{background:silver; color:black;}
+.plastico{background:lightblue; color:black;}
+.madera{background:#8B4513;}
+
+/* AGUA CALIENTE */
+.agua{
+    width:250px;
+    height:150px;
+    background:linear-gradient(to top, #ff4d4d, #ff9999);
+    margin:30px auto;
+    border-radius:20px;
+    line-height:150px;
+    font-weight:bold;
+}
+
+/* RESULTADO */
+.result{
+    margin-top:20px;
+    font-size:20px;
+}
+
+/* ANIMACION */
+.derretir{
+    animation: derretir 1s forwards;
+}
+
+@keyframes derretir{
+    0%{transform:scale(1);}
+    100%{transform:scale(0.5); opacity:0.5;}
+}
+</style>
+</head>
+
+<body>
+
+<h1>🔥 Juego: Experimento de la Cuchara</h1>
+<p>Arrastra una cuchara al agua caliente</p>
+
+<div class="game">
+
+    <!-- CUCHARAS -->
+    <div id="metal" class="cuchara metal" draggable="true">Metal</div>
+    <div id="plastico" class="cuchara plastico" draggable="true">Plástico</div>
+    <div id="madera" class="cuchara madera" draggable="true">Madera</div>
+
+    <!-- AGUA -->
+    <div class="agua" id="agua">Agua caliente</div>
+
+</div>
+
+<div class="result" id="resultado"></div>
+
+<script>
+let cucharaseleccionada = "";
+
+document.querySelectorAll(".cuchara").forEach(c => {
+    c.addEventListener("dragstart", (e)=>{
+        cucharaseleccionada = e.target.id;
+    });
+});
+
+let agua = document.getElementById("agua");
+
+agua.addEventListener("dragover", (e)=>{
+    e.preventDefault();
+});
+
+agua.addEventListener("drop", ()=>{
+    let resultado = document.getElementById("resultado");
+    let cuchara = document.getElementById(cucharaseleccionada);
+
+    cuchara.classList.add("derretir");
+
+    if(cucharaseleccionada === "metal"){
+        resultado.innerText = "🔥 Metal: se calienta rápido (excelente conductor)";
+    }
+    else if(cucharaseleccionada === "plastico"){
+        resultado.innerText = "⏳ Plástico: tarda más (mal conductor)";
+    }
+    else{
+        resultado.innerText = "❄️ Madera: casi no se calienta (aislante)";
+    }
+});
+</script>
+
+</body>
+</html>
